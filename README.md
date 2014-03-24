@@ -19,7 +19,7 @@ Clone the app in a directory
 
 Build the application (maven 3.1 or higher version needed)
 ```
-  $ cd add_paths_to_ead_nodes
+  $ cd identify_main_identifier
   $ mvn compile assembly:single
 ```
 
