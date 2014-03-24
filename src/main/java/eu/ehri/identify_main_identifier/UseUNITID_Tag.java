@@ -19,13 +19,13 @@ import javax.xml.stream.events.XMLEvent;
 public class UseUNITID_Tag {
 
 	/**
-	 * extract identifiers used by institutionen like Yad Vashem
+	 * extract identifiers used by institutions like i.e. Yad Vashem
 	 * (M19), where identifier is given as text
 	 * in the <did> node(<did>XXX</did>)
 	 * @author Kepa J. Rodriguez (https://github.com/KepaJRodriguez)
 	 */
 	
-	// for instance M19 at yad vashem
+	
 
 	public static String use_unitid_tag(String eadfile)
 			throws XMLStreamException, FactoryConfigurationError, IOException {
