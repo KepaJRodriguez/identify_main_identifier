@@ -3,6 +3,9 @@ package eu.ehri.identify_main_identifier;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 import javax.xml.parsers.FactoryConfigurationError;
@@ -30,6 +33,9 @@ public class UseUNITID_Tag {
 	public static String use_unitid_tag(String eadfile)
 			throws XMLStreamException, FactoryConfigurationError, IOException {
 
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		
 		String outputfile = eadfile.replace(".xml", "_mainids.xml");
 
 		FileInputStream fileInputStreamEAD = new FileInputStream(eadfile);
@@ -50,6 +56,34 @@ public class UseUNITID_Tag {
 			XMLEvent event = xmlEventReaderEAD.nextEvent();
 
 			writer.add(event);
+			
+			if (event.isStartElement()) {
+				if (event.asStartElement().getName().getLocalPart()
+						.equals("revisiondesc")) {
+					writer.add(end);
+					writer.add(eventFactory.createStartElement("", null,
+							"change"));
+					writer.add(end);
+					writer.add(eventFactory.createStartElement("", null,
+							"date"));
+					writer.add(eventFactory.createCharacters(dateFormat.format(date)));
+					writer.add(eventFactory.createEndElement("", null,
+							"date"));
+					writer.add(end);
+					writer.add(eventFactory.createStartElement("", null,
+							"item"));
+					writer.add(eventFactory
+							.createCharacters("EHRI added a unitid with label \"ehri_main_identifier\" to indicate the"
+									+ " identifier provided by the institution that EHRI will use as the identifier of"
+									+ " the unit."));
+					writer.add(eventFactory.createEndElement("", null,
+							"item"));
+					writer.add(end);
+					writer.add(eventFactory.createEndElement("", null,
+							"change"));
+				}
+			}
+			
 			if (event.isStartElement()) {
 				if (event.asStartElement().getName().getLocalPart()
 						.equals("unitid")) {
